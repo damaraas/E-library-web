@@ -1,0 +1,38 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Dashboard E-Library</title>
+ {% tailwind_css %}
+</head>
+<body>
+<!--Container -->
+<div class="mx-auto bg-white">
+  <!--Screen-->
+  <div class="min-h-screen flex flex-col">
+      <!--Header-->
+      {% include "includes/header.html" %}
+      <!--/Header-->
+      <!--content-->
+      {% block content %}{% endblock content %}
+      <!--/content-->
+      <!--Footer-->
+      {% include "includes/footer.html" %}
+      <!--/Footer-->
+      </div>
+  </div>
+
+  {% block script %}
+  <script>
+    // Toggle menu dropdown
+    document.getElementById("menuToggle").addEventListener("click", function() {
+        let menu = document.getElementById("menuDropdown");
+        menu.classList.toggle("hidden");
+    });
+  </script>
+  {% endblock script %}
+</div>
+</body>
+</html>

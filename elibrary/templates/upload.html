@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="pt-5 pb-10 bg-slate-100">
+    <div class="container">
+        <div class="w-full px-12">
+            <div class="mb-5">
+                <h4 class="font-bold text-3xl text-primary mb-2">Upload</h4>
+                <h2 class="font-semibold text-dark text-xl mb-4">Upload Buku</h2>
+            </div>
+            <!--Grid Form-->
+            <div class="p-50 flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+                <div class="mb-2 rounded border shadow-sm w-full">
+                    <div class="p-3">
+                        <form method="POST" enctype="multipart/form-data" class="w-full bg-white p-6 rounded-lg shadow-md">
+                            {% csrf_token %}
+                            <!-- File Buku PDF -->
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="file_pdf">
+                                    File Buku PDF
+                                </label>
+                                <input type="file" name="file_pdf" id="file_pdf" accept=".pdf"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900">
+                            </div>
+                            <!-- Judul Buku -->
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="judul">
+                                    Judul
+                                </label>
+                                <input type="text" name="judul" id="judul" placeholder="Judul Buku"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900">
+                            </div>
+                            <!-- Deskripsi Buku -->
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="deskripsi">
+                                    Deskripsi
+                                </label>
+                                <textarea name="deskripsi" id="deskripsi" placeholder="Deskripsi Buku"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"></textarea>
+                            </div>
+                            <!-- Penulis -->
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="penulis">
+                                    Penulis
+                                </label>
+                                <input type="text" name="penulis" id="penulis" placeholder="Penulis Buku"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900">
+                            </div>
+                            <!-- Tahun Terbit -->
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="tahun">
+                                    Tahun Terbit
+                                </label>
+                                <input type="number" name="tahun" id="tahun" placeholder="Tahun Terbit"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900">
+                            </div>
+                            <!-- Genre -->
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="genre">
+                                    Genre
+                                </label>
+                                <input type="text" name="genre" id="genre" placeholder="Genre Buku"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900">
+                            </div>
+                            <!-- Submit Button -->
+                            <div class="flex justify-end">
+                                <div class="mt-4 items-center justify-between">
+                                    <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded" type="submit">
+                                        Upload
+                                    </button>
+                                </div>
+                            </div>
+                        </form>                        
+                    </div>
+                </div>
+            </div>
+            <!--/Grid Form-->
+        </div>
+        
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,47 @@
+{% load static tailwind_tags %}
+<header class="bg-nav bg-gray-900">
+    <div class="flex justify-between">
+        <div class="p-1 mx-3 inline-flex items-center">
+            <!--Menu-->
+            <div class="relative p-2 mr-2">
+                <button id="menuToggle" class="text-white text-xl font-semibold focus:outline-none">
+                    ☰ Menu
+                </button>
+                <div id="menuDropdown" class="absolute hidden bg-white shadow-md rounded mt-2 w-40">
+                    <ul class="list-none">
+                        <li><a href="{% url 'base:index' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Katalog</a></li>
+                        <li><a href="{% url 'base:favorit' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Favorit</a></li>
+                        <li><a href="{% url 'base:profil' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profil</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--Menu-->
+        </div>
+        <div class="p-1 flex flex-row items-center">
+            <!--Search bar-->
+            <div class="relative w-1/3 p-2 mr-2">
+                <input type="text" placeholder="Search..." class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:border-blue-500">
+                <span class="absolute right-3 top-4 text-gray-500">
+                    🔍
+                </span>
+            </div>
+            <!--Search bar-->
+            <!--Tombol upload-->
+            <form method="post" action="{% url 'base:upload' %}">
+                {% csrf_token %}
+                <button class="bg-green-500 text-white w-24 p-2 mr-2 px-4 py-2 rounded-lg hover:bg-green-600 transition">
+                    Upload
+                </button>
+            </form>
+            <!--Tombol upload-->
+            <!--Tombol keluar-->
+            <form method="post" action="{% url 'base:login' %}">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-500 text-white w-24 p-2 mr-2 px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                    Keluar
+                </button>
+            </form>
+            <!--Tombol keluar-->
+        </div>
+    </div>
+</header>

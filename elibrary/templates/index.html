@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="pt-5 pb-10 bg-slate-100">
+    <div class="container">
+        <div class="w-full px-12 flex justify-between">
+            <div class="mb-5">
+                <h4 class="font-bold text-3xl text-primary mb-2">Katalog</h4>
+                <h2 class="font-semibold text-dark text-xl mb-4">Katalog Buku</h2>
+            </div>
+            <div>
+                <!-- Tombol untuk menampilkan hanya buku favorit -->
+                <button onclick="window.location.href='?is_favorite=true'" class="bg-gray-900 text-white py-2 px-4 rounded-md hover:bg-gray-400">
+                    Buku Favorit
+                </button>
+                    
+                <!-- Tombol untuk menampilkan semua buku -->
+                <button onclick="window.location.href='?is_favorite=false'" class="bg-gray-900 text-white py-2 px-4 rounded-md hover:bg-gray-400">
+                    Semua Buku
+                </button>
+            </div>
+        </div>
+        {% for book in page_obj %}
+        <div class="view">
+            <div class="py-2">
+                <div class="mx-40 px-7 py-6 flex justify-between items-center rounded-md shadow-md overflow-hidden">
+                    {% for image in book.images %}
+                    <div class="flex items-center justify-center">
+                        <img src="{{ image }}" alt="{{ book.judul }}" class="w-40 h-70"/>
+                    </div>
+                    {% endfor %}
+                    <div class="w-100 mx-4">
+                        <h3 class="font-bold text-xl text-dark mt-5 mb-3">{{ book.judul }}</h3>
+                        <h2 class="font-semibold text-dark">{{ book.genre }}</h2>
+                        <p class="font-light text-base text-dark">{{ book.deskripsi|truncatechars:200 }}</p>
+                    </div>
+                    <div>
+                        <form action="{% url 'base:toggle_favorite' book.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="text-gray-500 hover:text-yellow-300 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="{% if book.is_favorite %}yellow{% else %}none{% endif %}" 
+                                    stroke="currentColor" class="w-6 h-6" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14l-5-4.87 6.91-1L12 2z"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="px-5 flex items-end gap-2">
+                        <!-- Tombol untuk menampilkan edit buku -->
+                        <form method="POST" action="{% url 'base:edit' book.id %}">
+                            {% csrf_token %}
+                            <button class="bg-gray-900 text-white py-2 px-4 rounded-md hover:bg-gray-400">
+                                Edit
+                            </button>
+                        </form>
+                            
+                        <!-- Tombol untuk menampilkan hapus buku -->
+                        <button onclick="confirmDelete()" class="bg-red-700 text-white py-2 px-4 rounded-md hover:bg-red-400">
+                            Hapus
+                        </button>
+
+                        <!-- Modal untuk konfirmasi -->
+                        <div id="confirmModal" class="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 hidden">
+                            <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                                <h3 class="text-xl font-semibold mb-4">Apakah Anda yakin ingin menghapus buku ini?</h3>
+                                <div class="flex justify-between gap-4">
+                                    <!-- Tombol Batal -->
+                                    <button onclick="tidakDelete()" class="bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400">
+                                        Batal
+                                    </button>
+                                    
+                                    <!-- Tombol Hapus -->
+                                    <button onclick="deleteBook()" class="bg-red-700 text-white py-2 px-4 rounded-md hover:bg-red-400">
+                                        Hapus
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            function confirmDelete() {
+                                // Menampilkan modal
+                                document.getElementById('confirmModal').classList.remove('hidden');
+                            }
+
+                            function tidakDelete() {
+                                // Menyembunyikan modal
+                                document.getElementById('confirmModal').classList.add('hidden');
+                            }
+
+                            function deleteBook() {
+                                if (confirm("Apakah Anda yakin ingin menghapus buku ini?")) {
+                                    document.getElementById("deleteForm").submit();
+                                } else {
+                                    alert("Penghapusan dibatalkan.");
+                                }
+                            }
+                        </script>
+
+<form id="deleteForm" action="{% url 'base:delete' book.id %}" method="POST" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="book_id" value="{{ book.id }}">
+    <button type="submit" style="display: none;"></button>
+</form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p class="text-center text-gray-500">Tidak ada buku yang tersedia.</p>
+        {% endfor %}
+        <div id="pagination" class="flex justify-center items-center space-x-2">
+            <!-- Pagination Links -->
+            <span class="px-4 py-2 text-lg">
+                Halaman {{ page_obj.number }} dari {{ page_obj.paginator.num_pages }}
+            </span>
+            
+            <!-- Previous Page Button -->
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Prev</a>
+            {% else %}
+                <span class="px-4 py-2 bg-gray-300 rounded-md">First</span>
+                <span class="px-4 py-2 bg-gray-300 rounded-md">Prev</span>
+            {% endif %}
+            
+            <!-- Next Page Button -->
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Last</a>
+            {% else %}
+                <span class="px-4 py-2 bg-gray-300 rounded-md">Next</span>
+                <span class="px-4 py-2 bg-gray-300 rounded-md">Last</span>
+            {% endif %}
+        </div>    
+    </div>
+</section>
+{% endblock content %}
