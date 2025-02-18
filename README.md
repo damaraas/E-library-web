@@ -17,9 +17,8 @@ Proyek **e-Library** adalah sebuah aplikasi berbasis web yang dikembangkan mengg
 https://github.com/damaraas/elibrary.git
 ```
 
-### 2. Buat Virtual Environment dan Install Dependensi
+### 2. Masuk Virtual Environment
 ```sh
-python -m venv .venv
 source .venv/bin/activate  # Untuk Mac/Linux
 .venv\Scripts\activate    # Untuk Windows
 ```
@@ -29,13 +28,18 @@ source .venv/bin/activate  # Untuk Mac/Linux
 pip install -r requirements.txt
 ```
 
-### 4. Jalankan Migrasi Database
+### 4. Masuk Folder elibrary
+```sh
+pip install -r requirements.txt
+```
+
+### 5. Jalankan Migrasi Database
 ```sh
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 5. Buat Superuser (Opsional)
+### 6. Buat Superuser (Opsional)
 ```sh
 python manage.py createsuperuser
 ```
@@ -43,12 +47,12 @@ atau dapat login menggunakan:
 Email: damarasalsabila@gmail.com  
 Password: damsal123
 
-### 6. Jalankan Server
+### 7. Jalankan Server
 ```sh
 python manage.py runserver
 ```
 
-### 6. Jalankan Tailwind di terminal berbeda
+### 8. Jalankan Tailwind di terminal berbeda
 ```sh
 python manage.py tailwind start
 ```
