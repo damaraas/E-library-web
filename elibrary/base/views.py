@@ -10,7 +10,6 @@ from .models import Buku, Profil
 from django.conf import settings
 from django.core.paginator import Paginator
 
-@login_required
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -22,6 +21,7 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
+@login_required
 def index(request):
     books = Buku.objects.all()
 

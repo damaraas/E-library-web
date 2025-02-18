@@ -4,8 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("", index, name="index"),
     path('login/', login_view, name='login'),
+    path("", index, name="index"),
     path("register/", authView, name="authView"),
     path("accounts/", include("django.contrib.auth.urls")),
     path('profil/', profil, name='profil'),
